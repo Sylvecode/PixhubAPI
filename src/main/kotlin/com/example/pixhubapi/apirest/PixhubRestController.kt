@@ -21,8 +21,8 @@ class PixhubRestController (val accountService: AccountService){
     }
 
 
-    //http://localhost:8080/addGame?equipe1=Lyon&equipe2=Marseille&date=2024-03-23
-    //Créer un compte en rentrant le nom le pseudo(username), le nom de famille, le prénom, l'email et le mot de passe en paramètre
+    //http://localhost:8080/addAccount
+    //Créer un compte en rentrant le nom le pseudo(username), le nom de famille, le prénom, l'email et le mot de passe dans le body
     @PostMapping("/addAccount")
     fun addAccount(@RequestBody accountBean: AccountBean): AccountBean{
         require(!accountBean.username.isNullOrBlank()) { "Veuillez rentrer un identifiant" }
