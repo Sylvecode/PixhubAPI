@@ -27,6 +27,15 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    //Permet à JAVA de se connecter à une base SQL
+    runtimeOnly("com.mysql:mysql-connector-j")
+
+    //JPA Framework Java qui génère du SQL
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    //Pour utiliser avec Kotlin
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
 }
 
 tasks.withType<KotlinCompile> {
