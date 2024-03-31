@@ -1,12 +1,11 @@
 package com.example.pixhubapi.model
 
+
 import jakarta.persistence.*
-import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
-import java.sql.Date
+
 
 
 @Entity
@@ -24,7 +23,9 @@ data class AccountBean(
 
 
 @Repository
-interface AccountRepository : JpaRepository<AccountBean, Long>
+interface AccountRepository : JpaRepository<AccountBean, Long> {
+    fun findByUsernameAndPassword(username : String, password: String): AccountBean?
+}
 
 
 
@@ -45,6 +46,17 @@ class AccountService(val accountRep: AccountRepository) {
        }
         val account = AccountBean(null, username, familyName, name, email, password)
         accountRep.save(account)
+        return account
+    }
+
+    fun login(username: String, password: String): AccountBean? {
+        if (username.isNullOrBlank()) {
+            throw Exception("Veuillez rentrer un identifiant")
+        } else if (password.isNullOrBlank()) {
+            throw Exception("Veuillez rentrer un mot de passe")
+        }
+        val account = accountRep.findByUsernameAndPassword(username, password)
+
         return account
     }
 

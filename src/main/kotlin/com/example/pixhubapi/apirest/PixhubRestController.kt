@@ -2,10 +2,7 @@ package com.example.pixhubapi.apirest
 
 import com.example.pixhubapi.model.AccountBean
 import com.example.pixhubapi.model.AccountService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.sql.Date
 
 
@@ -37,6 +34,21 @@ class PixhubRestController (val accountService: AccountService){
             accountBean.name,
             accountBean.email,
             accountBean.password
+        )
+    }
+
+    //http://localhost:8080/login
+    @PostMapping("/login")
+    fun login(@RequestBody params: Map<String, String>): AccountBean? {
+        val username = params["username"]
+        val password = params["password"]
+
+        require(!username.isNullOrBlank()) { "Veuillez rentrer un identifiant" }
+        require(!password.isNullOrBlank()) { "Veuillez rentrer un mot de passe" }
+
+        return accountService.login(
+            username,
+            password
         )
     }
 }
