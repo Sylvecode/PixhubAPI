@@ -1,9 +1,10 @@
 package com.example.pixhubapi
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 import org.springframework.boot.runApplication
 
-@SpringBootApplication
+@SpringBootApplication()
 class PixhubApiApplication
 
 fun main(args: Array<String>) {

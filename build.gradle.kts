@@ -24,9 +24,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.json:json:20231013")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    //Parsing JSON
+    implementation("com.google.code.gson:gson:+")
+
+    //Requete
+    implementation("com.squareup.okhttp3:okhttp:+")
 
     //Permet à JAVA de se connecter à une base SQL
     runtimeOnly("com.mysql:mysql-connector-j")
