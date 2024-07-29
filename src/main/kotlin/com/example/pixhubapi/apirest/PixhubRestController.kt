@@ -88,7 +88,6 @@ class PixhubRestController(val accountService: AccountService) {
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-            val responseBody = response.body ?: throw IOException("Response body is null")
             val responseBodyString = response.body.string()
             return responseBodyString
         }
@@ -108,7 +107,6 @@ class PixhubRestController(val accountService: AccountService) {
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-            val responseBody = response.body ?: throw IOException("Response body is null")
             val responseBodyString = response.body.string()
             return responseBodyString
         }
@@ -128,7 +126,6 @@ class PixhubRestController(val accountService: AccountService) {
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-            val responseBody = response.body ?: throw IOException("Response body is null")
             val responseBodyString = response.body.string()
             return responseBodyString
         }
@@ -149,7 +146,6 @@ class PixhubRestController(val accountService: AccountService) {
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-            val responseBody = response.body ?: throw IOException("Response body is null")
             val responseBodyString = response.body.string()
             return responseBodyString
         }
@@ -169,7 +165,6 @@ class PixhubRestController(val accountService: AccountService) {
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-            val responseBody = response.body ?: throw IOException("Response body is null")
             val responseBodyString = response.body.string()
             return responseBodyString
         }
