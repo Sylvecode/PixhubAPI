@@ -171,4 +171,22 @@ class PixhubRestController(val accountService: AccountService) {
     }
 
 
+    @GetMapping("/getRecentGames")
+    fun getRecentGames(): String {
+        val url = "https://api.rawg.io/api/games?key=4c4473df58f14646aec94971573f50c0&dates=2024-06-01,2024-07-30"
+
+
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+            val responseBodyString = response.body.string()
+            return responseBodyString
+        }
+    }
+
+
 }
