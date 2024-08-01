@@ -189,4 +189,35 @@ class PixhubRestController(val accountService: AccountService) {
     }
 
 
+    @GetMapping("/search")
+    fun search(@RequestParam searchName: String): String {
+        val baseUrl = "https://api.themoviedb.org/3/search"
+        val movieUrl = "$baseUrl/movie?query=$searchName&include_adult=false&language=fr-FR&page=1"
+        val personUrl = "$baseUrl/person?query=$searchName&include_adult=false&language=fr-FR&page=1"
+
+
+        fun fetchResults(url: String): String {
+            val request = Request.Builder()
+                .url(url)
+                .build()
+
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) throw IOException("Unexpected code $response")
+                return response.body?.string() ?: throw IOException("Empty response")
+            }
+        }
+
+        val movieResults = fetchResults(movieUrl)
+        val personResults = fetchResults(personUrl)
+
+        // Combine results
+        val combinedResults = mutableMapOf<String, String>()
+        combinedResults["movies"] = movieResults
+        combinedResults["persons"] = personResults
+
+        // Retourner les résultats sous forme de JSON combiné
+        return combinedResults.toString() // Vous pouvez utiliser une librairie JSON pour formater proprement
+    }
+
+
 }
