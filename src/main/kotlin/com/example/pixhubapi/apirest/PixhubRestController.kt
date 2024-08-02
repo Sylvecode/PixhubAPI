@@ -190,22 +190,32 @@ class PixhubRestController(val accountService: AccountService) {
 
 
     @GetMapping("/search")
-    fun search(@RequestParam searchName: String): String {
+    fun search(@RequestParam query: String): String {
         val baseUrl = "https://api.themoviedb.org/3/search"
-        val movieUrl = "$baseUrl/movie?query=$searchName&include_adult=false&language=fr-FR&page=1"
-        val personUrl = "$baseUrl/person?query=$searchName&include_adult=false&language=fr-FR&page=1"
-
+        val movieUrl = "$baseUrl/movie?query=$query&include_adult=false&language=fr-FR&page=1"
+        val personUrl = "$baseUrl/person?query=$query&include_adult=false&language=fr-FR&page=1"
 
         fun fetchResults(url: String): String {
             val request = Request.Builder()
                 .url(url)
+                .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MTA2Mzg5NjQ5ZWFlMWQ4MWYwN2M4NTk3OGE2MDgwZSIsIm5iZiI6MTcyMDcwMjM4NC40MjU5Nywic3ViIjoiNjU1MjMzMjVlYTg0YzcxMDk1OWJkZGQ5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.Ie7g_7RApnUQz5pQpLx04G2KxfQqQVvqOQGaFq4eebE")
+                .addHeader("accept", "application/json")
                 .build()
 
+            println("Fetching data from URL: $url")  // Log URL being requested
+
             client.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) throw IOException("Unexpected code $response")
-                return response.body?.string() ?: throw IOException("Empty response")
+                if (!response.isSuccessful) {
+                    println("Failed to fetch data from URL: $url, Status Code: ${response.code}")  // Log failure
+                    throw IOException("Unexpected code $response")
+                }
+                val responseBody = response.body?.string() ?: throw IOException("Empty response")
+                println("Received response from URL: $url")  // Log successful response
+                return responseBody
             }
         }
+
+        println("Starting search with query: $query")  // Log search start
 
         val movieResults = fetchResults(movieUrl)
         val personResults = fetchResults(personUrl)
@@ -215,9 +225,13 @@ class PixhubRestController(val accountService: AccountService) {
         combinedResults["movies"] = movieResults
         combinedResults["persons"] = personResults
 
+        // Log combined results
+        println("Combined Results: $combinedResults")
+
         // Retourner les résultats sous forme de JSON combiné
         return combinedResults.toString() // Vous pouvez utiliser une librairie JSON pour formater proprement
     }
+
 
 
 }
