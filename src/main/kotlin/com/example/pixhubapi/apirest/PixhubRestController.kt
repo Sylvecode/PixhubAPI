@@ -218,18 +218,15 @@ class PixhubRestController(val accountService: AccountService) {
         println("Starting search with query: $query")  // Log search start
 
         val movieResults = fetchResults(movieUrl)
-        val personResults = fetchResults(personUrl)
 
-        // Combine results
-        val combinedResults = mutableMapOf<String, String>()
-        combinedResults["movies"] = movieResults
-        combinedResults["persons"] = personResults
-
-        // Log combined results
-        println("Combined Results: $combinedResults")
-
-        // Retourner les résultats sous forme de JSON combiné
-        return combinedResults.toString() // Vous pouvez utiliser une librairie JSON pour formater proprement
+        if (movieResults.isNotEmpty()) {
+            println("Returning movie results.")
+            return movieResults
+        } else {
+            println("No movie results found, fetching person results.")
+            val personResults = fetchResults(personUrl)
+            return personResults
+        }
     }
 
 
